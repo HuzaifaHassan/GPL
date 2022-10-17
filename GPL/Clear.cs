@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace GPL
 {
-    public class Clear
+    public class Clear : Shape
     {
     }
 }

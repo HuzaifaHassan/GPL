@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace GPL
 {
-    public class Pentagon
+    public class Pentagon:Shape
     {
     }
 }
