@@ -39,11 +39,7 @@ namespace GPL
             {
                 return new Triangle();
             }
-            if (shapeType.Equals("PENTAGON"))
-            {
-                return new Pentagon();
-
-            }
+            
                 if (shapeType.Equals("DRAWLINE"))
                 {
                     return new drawline();
