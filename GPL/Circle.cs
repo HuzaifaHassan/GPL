@@ -63,6 +63,7 @@ namespace GPL
         /// <param name="g"></param>
         public override void draw(Graphics g)
         {
+            //setting up the pen to draw circle with the color defined by user.
             Pen _p = new Pen(_color, 2);
             SolidBrush _b = new SolidBrush(_color);
             g.DrawEllipse(_p, _x, _y, _radius, _radius);
