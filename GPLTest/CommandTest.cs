@@ -16,17 +16,17 @@ namespace GPLTest
         {
             try
             {
-                int a = 10;
-                int b = 20;
-                string symbol = "=";
-                if (symbol == "=")
+                int _a = 10;
+                int _b = 20;
+                string _symbol = "=";
+                if (_symbol == "=")
                 { 
-                  Assert.AreEqual(a, b,00.1,"Number match successful");
+                  Assert.AreEqual(_a, _b,00.1,"Number match successful");
                 
                 }
                 else
                 {
-                    Assert.AreNotEqual(a, b, 00.1, "Number match unsuccessfull");
+                    Assert.AreNotEqual(_a, _b, 00.1, "Number match unsuccessfull");
 
                 }
 
