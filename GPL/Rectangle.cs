@@ -26,9 +26,24 @@ namespace GPL
             this._width = width_;
             this._height = height_;     
         }
+
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="_colour"></param>
+        /// <param name="_list"></param>
+        public override void Set(Color _colour, params int[] _list)
+        {
+            //list[0] indicates x-axis,list[1] does y, list[2] is width and list[3] is height
+            base.Set(_colour, _list[0], _list[1]);
+            this._width = _list[2];
+            this._height = _list[3];
+        }
         public override void draw(Graphics g)
         {
-            throw new NotImplementedException();
+            Pen _p = new Pen(_color, 2);
+            SolidBrush _b = new SolidBrush(_color);
+            g.DrawRectangle(_p, _x, _y, _width, _height);
         }
     }
 }
