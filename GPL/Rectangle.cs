@@ -14,7 +14,7 @@ namespace GPL
         { }
 
         /// <summary>
-        /// 
+        /// Setting Up Parameters for Rectangle
         /// </summary>
         /// <param name="_color"></param>
         /// <param name="_x"></param>
@@ -39,6 +39,10 @@ namespace GPL
             this._width = _list[2];
             this._height = _list[3];
         }
+        /// <summary>
+        /// Drawing Rectangle..
+        /// </summary>
+        /// <param name="g"></param>
         public override void draw(Graphics g)
         {
             Pen _p = new Pen(_color, 2);

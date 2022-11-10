@@ -46,7 +46,7 @@ namespace GPL
                 }
                 if (shapeType.Equals("MOVEPEN"))
                 {
-                    return new movePen();
+                    return new Pointer();
                 }
                 if (shapeType.Equals("Clear"))
                 {

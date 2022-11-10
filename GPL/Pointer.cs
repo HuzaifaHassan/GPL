@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 
 namespace GPL
 {
-    public class movePen : Shape
+    public class Pointer : Shape
     {
         public override void draw(Graphics g)
         {
