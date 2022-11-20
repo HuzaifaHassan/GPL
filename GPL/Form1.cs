@@ -81,6 +81,11 @@ namespace GPL
             }
         }
 
+        private void pictureBox1_Click(object sender, EventArgs e)
+        {
+
+        }
+
         private void richTextBox1_TextChanged(object sender, EventArgs e)
         {
 
@@ -155,6 +160,7 @@ namespace GPL
             shape_ = _fact.GetShape("clear");
             shape_.Set(_color, 0, 0, 10000, 10000);
             _shapes.Add(shape_);
+            pictureBox1.Refresh();
             //Resetting x and y co-ords as well..
             _xpos = 0;
             _ypos = 0;
@@ -385,7 +391,7 @@ namespace GPL
 
                     }
 
-                    else if (cmd[i].Contains("rectanlge"))
+                    else if (cmd[i].Contains("rectangle"))
                     {
                         try
                         {
@@ -399,11 +405,11 @@ namespace GPL
                             int width_ = 10;
                             //splitting the line to get params.
                             string[] _sRect = cmd[i].Split(' ');
-                            if (!cmd[i].Contains("repeat"))
-                            {
-                                _h = _sRect[1];
-                                _w = _sRect[2];
-                            }
+                            //  if (!cmd[i].Contains("repeat"))
+                            // {
+                            //  _h = _sRect[1];
+                            // _w = _sRect[2];
+                            //}
                             try
                             {
                                 _shapes.Add(_shape.GetShape("rectangle"));
@@ -411,7 +417,7 @@ namespace GPL
                             }
                             catch (ArgumentException)
                             {
-                                Console.WriteLine("Invaid Shape: "+ e);
+                                Console.WriteLine("Invaid Shape: " + e);
                             }
                             if (_h == "height")
                             {
@@ -423,8 +429,8 @@ namespace GPL
 
                             }
                             if (_w == "height")
-                            { 
-                               width_ = _height;
+                            {
+                                width_ = _height;
                             }
                             if (_w == "width")
                             {
@@ -440,7 +446,7 @@ namespace GPL
                         //Exception Handling if there are too many or not enough parameters.
                         catch (IndexOutOfRangeException)
                         {
-                            
+
                             String _msg = "Enter 2 parameters for Rectangle";
                             String _txt = "Unable to draw a rectangle.";
                             MessageBoxButtons _btns = MessageBoxButtons.OK;
@@ -452,7 +458,7 @@ namespace GPL
                         // if the parameters were the incorrect data type.
                         catch (FormatException)
                         {
-                           
+
                             String _msg = "Must be Integars";
                             String _txt = "Unable to draw a rectangle.";
                             MessageBoxButtons _btns = MessageBoxButtons.OK;
@@ -466,7 +472,67 @@ namespace GPL
 
 
                     }
+                    else if (cmd[i].Contains("triangle"))
+                    {
+                        try
+                        {
+                            //Gets the triangle from factory class
+                            _shapes.Add(_shape.GetShape("triangle"));
+                        }
+                        //Exception if triangle is not available in factory..
+                        catch (ArgumentException)
+                        {
+                            Console.WriteLine("Invlaid Shape: " + e);
+                        }
+                        try
+                        {
+                            int _hyp = 10;
+                            int _base = 10;
+                            int _adj = 10;
+                            //Split the command to get triangle params.
+                            string[] _sTri = cmd[i].Split(' ');
+                            //string _h = _sTri[1];
+                           // string _a=_sTri[2];
+                           // string _b=_sTri[3];
+                            //Convert the Params to int.
+                           // _hyp = Convert.ToInt32(_h);
+                           // _base = Convert.ToInt32(_a);
+                          //  _adj = Convert.ToInt32(_b);
+                            Shape shape_;
+                            Color color_ = _color;
+                            shape_ = _shape.GetShape("triangle");
+                            shape_.Set(color_, _xpos, _ypos, _hyp, _base, _adj);
+                            _shapes.Add(shape_);
+                            pictureBox1.Refresh();
 
+                        
+                        }
+                        //Exception if there are too many or not enough parameters.
+                        catch (IndexOutOfRangeException)
+                        {
+                           
+                            String _msg = "No parameters more then 3 or less then 3 for triangle";
+                            String _txt = "Unable to draw a triangle.";
+                            MessageBoxButtons _btns= MessageBoxButtons.OK;
+                            DialogResult _res;
+
+                            //Display the dialog box.
+                            _res = MessageBox.Show(_msg, _txt, _btns);
+                        }
+                        //Exception saying the paramters for the triangle are incorrect.
+                        catch (FormatException)
+                        {
+                            
+                            String _msg = "Integars only";
+                            String _txt = "Unable to draw a triangle.";
+                            MessageBoxButtons _btns = MessageBoxButtons.OK;
+                            DialogResult _res;
+
+                            //Display the dialog box.
+                            _res = MessageBox.Show(_msg, _txt, _btns);
+                        }
+
+                    }
 
                 }
                 catch (ArgumentOutOfRangeException)
