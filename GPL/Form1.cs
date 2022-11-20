@@ -39,6 +39,42 @@ namespace GPL
         //Protected integars used for position of pointer and measurements of shapes.
         protected int _xpos, _ypos, _x, _y, _height = 0, _width = 0, _radius = 0;
 
+        /// <summary>
+        /// Method that allows user to load previously saved file..
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
+        private void openToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            //If file doesnt open program will show an error
+            try
+            {
+                //Allowing user to select the file
+                OpenFileDialog _file=new OpenFileDialog();
+                if (_file.ShowDialog() == DialogResult.OK)
+                { 
+                   //Reads the file and save it to a string..
+                   string _source=File.ReadAllText(_file.FileName);
+                    richTextBox1.AppendText(_source);
+                
+                
+                }
+            }
+            //Exception for Errors with file
+            catch(IOException)
+            {
+                //Incorrect file format Message..
+                string _msg = "Cannot open the file";
+                string _txt = "Unable to Open..";
+                MessageBoxButtons _btns = MessageBoxButtons.OK;
+                DialogResult _res;
+                _res = MessageBox.Show(_msg, _txt, _btns);
+            
+            
+            
+            }
+        }
+
         private void richTextBox1_TextChanged(object sender, EventArgs e)
         {
 
