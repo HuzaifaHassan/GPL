@@ -42,7 +42,7 @@ namespace GPL
         /// <param name="_list"></param>
         public override void Set(Color _colour, params int[] _list)
         {
-            base.Set(_colour, _list[1]);
+            base.Set(_colour, _list[0], _list[1]);
             this._radius = _list[2];
         }
 

@@ -40,11 +40,13 @@ namespace GPL
                 return new Triangle();
             }
             
+            //if DrawTO is defined..
                 if (shapeType.Equals("DRAWLINE"))
                 {
                     return new drawline();
                 }
-                if (shapeType.Equals("POINTER"))
+                //if moveTO is defined here it will run pointer class..
+                if (shapeType.Equals("MOVETO"))
                 {
                     return new Pointer();
                 }

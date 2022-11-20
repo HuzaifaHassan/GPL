@@ -53,6 +53,7 @@
             this.pictureBox1.Size = new System.Drawing.Size(398, 529);
             this.pictureBox1.TabIndex = 0;
             this.pictureBox1.TabStop = false;
+            this.pictureBox1.Paint += new System.Windows.Forms.PaintEventHandler(this.pictureBox1_Paint);
             // 
             // richTextBox1
             // 
@@ -71,6 +72,7 @@
             this.Btn_Run.TabIndex = 3;
             this.Btn_Run.Text = "RUN";
             this.Btn_Run.UseSelectable = true;
+            this.Btn_Run.Click += new System.EventHandler(this.Btn_Run_Click);
             // 
             // btn_Del
             // 
@@ -136,7 +138,7 @@
             // openToolStripMenuItem
             // 
             this.openToolStripMenuItem.Name = "openToolStripMenuItem";
-            this.openToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
+            this.openToolStripMenuItem.Size = new System.Drawing.Size(106, 22);
             this.openToolStripMenuItem.Text = "Open ";
             this.openToolStripMenuItem.Click += new System.EventHandler(this.openToolStripMenuItem_Click);
             // 
