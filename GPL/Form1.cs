@@ -39,6 +39,29 @@ namespace GPL
         //Protected integars used for position of pointer and measurements of shapes.
         protected int _xpos, _ypos, _x, _y, _height = 0, _width = 0, _radius = 0;
 
+        private void richTextBox1_TextChanged(object sender, EventArgs e)
+        {
+
+        }
+
+        /// <summary>
+        /// Functionality to save Users command..
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
+        private void saveToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            SaveFileDialog _saveFile= new SaveFileDialog();
+            //if user press Ok button it will save the progress.
+            if (_saveFile.ShowDialog() == DialogResult.OK)
+            {
+                string _code = richTextBox1.Text;
+                File.WriteAllText(_saveFile.FileName, _code);
+
+            }
+
+        }
+
         /// <summary>
         /// Here Lies Functionality to the exit button
         /// </summary>
