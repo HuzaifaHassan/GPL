@@ -80,6 +80,7 @@
             this.btn_Del.TabIndex = 4;
             this.btn_Del.Text = "Clear";
             this.btn_Del.UseSelectable = true;
+            this.btn_Del.Click += new System.EventHandler(this.btn_Del_Click);
             // 
             // txt_cmdbx
             // 

@@ -39,6 +39,8 @@ namespace GPL
         //Protected integars used for position of pointer and measurements of shapes.
         protected int _xpos, _ypos, _x, _y, _height = 0, _width = 0, _radius = 0;
 
+      
+
         /// <summary>
         /// Method that allows user to load previously saved file..
         /// </summary>
@@ -120,6 +122,38 @@ namespace GPL
                 //Close the Program..
                 Application.Exit();
             }
+        }
+        /// <summary>
+        /// Method to perform Clear Functionality..
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
+        private void btn_Del_Click(object sender, EventArgs e)
+        {
+            ShapeFactory _fact = new ShapeFactory();
+            try
+            {
+                //will search in shapefactory for clear
+                _shapes.Add(_fact.GetShape("clear"));
+
+
+            }
+            //exception handling if no such functionality existss..
+            catch (ArgumentException)
+            {
+                Console.WriteLine("Invalid Function:" + e);
+
+             
+            }
+            //Reseting the Screen to Black...
+            Shape shape_;
+            Color _color = Color.Black;
+            shape_ = _fact.GetShape("clear");
+            shape_.Set(_color, 0, 0, 10000, 10000);
+            _shapes.Add(shape_);
+            //Resetting x and y co-ords as well..
+            _xpos = 0;
+            _ypos = 0;
         }
     }
 }
