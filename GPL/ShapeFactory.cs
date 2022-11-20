@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 namespace GPL
 {
    /// <summary>
-   /// Factory Class
+   /// Factory Class gets the shape defined by user and points the program to run the code for that shape.
    /// 
    /// </summary>
     class ShapeFactory
@@ -44,11 +44,11 @@ namespace GPL
                 {
                     return new drawline();
                 }
-                if (shapeType.Equals("MOVEPEN"))
+                if (shapeType.Equals("POINTER"))
                 {
                     return new Pointer();
                 }
-                if (shapeType.Equals("Clear"))
+                if (shapeType.Equals("CLEAR"))
                 {
                     return new Clear();
                 }
