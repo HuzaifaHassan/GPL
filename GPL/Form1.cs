@@ -348,8 +348,8 @@ namespace GPL
                                 }
                                 else
                                 {
-                                    shape_.Set(_color,_xpos-(_radius/2),_ypos-(_radius/2),_radius);
-                                
+                                    shape_.Set(_color, _xpos - (_radius / 2), _ypos - (_radius / 2), _radius);
+
                                 }
                                 _shapes.Add(shape_);
                                 //Refreshing the picture box so circle becomes visible
@@ -385,7 +385,87 @@ namespace GPL
 
                     }
 
+                    else if (cmd[i].Contains("rectanlge"))
+                    {
+                        try
+                        {
+                            int _rep = 1;
+                            int _inc = 0;
+                            string _symbol = "";
+                            string _h = "";
+                            string _w = "";
+                            char[] _nChar = new char[0];
+                            int height_ = 10;
+                            int width_ = 10;
+                            //splitting the line to get params.
+                            string[] _sRect = cmd[i].Split(' ');
+                            if (!cmd[i].Contains("repeat"))
+                            {
+                                _h = _sRect[1];
+                                _w = _sRect[2];
+                            }
+                            try
+                            {
+                                _shapes.Add(_shape.GetShape("rectangle"));
 
+                            }
+                            catch (ArgumentException)
+                            {
+                                Console.WriteLine("Invaid Shape: "+ e);
+                            }
+                            if (_h == "height")
+                            {
+                                height_ = _height;
+                            }
+                            if (_h == "width")
+                            {
+                                height_ = _width;
+
+                            }
+                            if (_w == "height")
+                            { 
+                               width_ = _height;
+                            }
+                            if (_w == "width")
+                            {
+                                width_ = _width;
+                            }
+                            Shape shape_;
+                            Color color_ = _color;
+                            shape_ = _shape.GetShape("rectangle");
+                            shape_.Set(color_, _xpos, _ypos, height_, width_);
+                            _shapes.Add(shape_);
+                            pictureBox1.Refresh();
+                        }
+                        //Exception Handling if there are too many or not enough parameters.
+                        catch (IndexOutOfRangeException)
+                        {
+                            
+                            String _msg = "Enter 2 parameters for Rectangle";
+                            String _txt = "Unable to draw a rectangle.";
+                            MessageBoxButtons _btns = MessageBoxButtons.OK;
+                            DialogResult _res;
+
+                            //Display the dialog box.
+                            _res = MessageBox.Show(_msg, _txt, _btns);
+                        }
+                        // if the parameters were the incorrect data type.
+                        catch (FormatException)
+                        {
+                           
+                            String _msg = "Must be Integars";
+                            String _txt = "Unable to draw a rectangle.";
+                            MessageBoxButtons _btns = MessageBoxButtons.OK;
+                            DialogResult _res;
+
+                            //Display the dialog box.
+                            _res = MessageBox.Show(_msg, _txt, _btns);
+                        }
+
+
+
+
+                    }
 
 
                 }
