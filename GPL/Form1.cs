@@ -37,7 +37,7 @@ namespace GPL
         //setting up an array to store in the shapes..
         ArrayList _shapes = new ArrayList();
         //Protected integars used for position of pointer and measurements of shapes.
-        protected int _xpos, _ypos, _x, _y, _height = 0, _width = 0, _radius = 0;
+        protected int _xpos, _ypos, _x, _y, _height = 0, _width = 0, _radius = 0,_loopTimes,loop=0,loopLine,loopIndex;
 
       
 
@@ -198,349 +198,77 @@ namespace GPL
         /// <param name="e"></param>
         private void Btn_Run_Click(object sender, EventArgs e)
         {
-            //setting up an array to store user commands.
-            string[] cmd = { };
-            //To check if there are any commands in textbox
+            //setting up an array to store users command.
+            string[] program = { };
+
+            //Checks to Seee if there are commands 
+            if (richTextBox1.Text != "")
+            {
+                //saving the commands in array.
+                program = richTextBox1.Text.Split('\n');
+             
+            }
+            //Checking to see if we have any command in textbox.
             if (txt_cmdbx.Text != "")
             {
-                //Saves the textbox commands in array.
-                cmd = txt_cmdbx.Text.Split('\n');
+                //Saves the textBox Commands in array if there are commands in both then priority will be given to textbox.
+                program = txt_cmdbx.Text.Split('\n');
             }
-            //setting up the color..
-            Color _color = Color.Red;
-            for (int i = 0; i < cmd.Length; i++)
+            //Setting up an integar that will increment through the forLoop allowing to see which line has error.
+            int lines = 1;
+            //sets up a new color for user to change.
+            Color userColor = Color.Blue;
+            //The for loop will loop through the lines of the textbox running the commands given by user.
+            for (int i = 0; i < program.Length; i++)
             {
-
-
                 try
                 {
-                    //COnverting all of the user commands to lower case so upper case or lower doesnt matter.
-                    cmd = Array.ConvertAll(cmd, x => x.ToLower());
-
-                    ShapeFactory _shape = new ShapeFactory();
-                    //To check if command of user contains keyword 'color'.
-                    if (cmd[i].Contains("color"))
-                    {
-                        //Sets up a color dialog that will pop up and allow user to select there color
-                        ColorDialog _colorDialog = new ColorDialog();
-                        _colorDialog.AllowFullOpen = true;
-                        _colorDialog.AnyColor = true;
-                        _colorDialog.SolidColorOnly = false;
-
-                        //if user will click on 'Ok' the program will continue.
-                        if (_colorDialog.ShowDialog() == DialogResult.OK)
-                        {
-                            _color = _colorDialog.Color;
-
-                        }
-
-                    }
-
-
-                    else if (cmd[i].Contains("moveTo"))
+                    string ifCode = "";
+                    //Converting all commands of textbox to LowerCase.
+                    program = Array.ConvertAll(program, x => x.ToLower());
+                    //Calls the ShapeFactory method so it can auto load the different shapes.
+                    ShapeFactory factory = new ShapeFactory();
+                    //Checks whether the user wants to loop their code.
+                    if (program[i].Contains("loop"))
                     {
                         try
                         {
-                            //Getting MoveTo from Factory
-                            _shapes.Add(_shape.GetShape("moveTo"));
-
-                        }
-                        //Exception in case the it is not in factor class.
-                        catch (ArgumentException)
-                        {
-                            Console.WriteLine("Invalid shape:" + e);
-                        }
-                        //splitting the user command to get x,y params.
-                        string[] _spv = cmd[i].Split(' ');
-                        try
-                        {
-                            //Saing x,y paramst and converting them to Int.
-                            string _h = _spv[1];
-                            string _v = _spv[2];
-                            _x = Convert.ToInt32(_h);
-                            _y = Convert.ToInt32(_v);
-                            //Now Setting up the pen and moving it to desired location.
-                            Shape shape_;
-                            //making it transparent for not letting it to draw.
-                            Color color_ = Color.Transparent;
-                            shape_ = _shape.GetShape("moveTo");
-                            shape_.Set(color_, _xpos, _ypos, _x, _y);
-                            _shapes.Add(shape_);
-                            //Refreshing picture box to ake sure the pen actually moves
-                            pictureBox1.Refresh();
-                            //updating x,y co ordinates for next shape
-                            _xpos = _x;
-                            _ypos = _y;
-
-                        }
-                        //Exception Handling if command has params more or less then 2.
-                        catch (IndexOutOfRangeException)
-                        {
-                            string _msg = "It takes only 2 parameters no more and no less";
-                            string _txt = "Unabe to move pen";
-                            MessageBoxButtons _btns = MessageBoxButtons.OK;
-                            DialogResult _res;
-                            _res = MessageBox.Show(_msg, _txt, _btns);
-
-                        }
-                        //Exception  if the parameters are in the wrong format of the wrong data type.
-                        catch (FormatException)
-                        {
-                            //Message saying that the parameters shoulc be integars.
-                            String _msg = "Format  must be in Integers";
-                            String _txt = "Unable to move the pen.";
-                            MessageBoxButtons _btns = MessageBoxButtons.OK;
-                            DialogResult _res;
-
-                            //Display the dialog box.
-                            _res = MessageBox.Show(_msg, _txt, _btns);
-                        }
-
-
-                    }
-                    //checks to see if user commands contains a circle
-                    else if (cmd[i].Contains("circle"))
-                    {
-                        try
-                        {
-                            //sets up variable for circle
-                            int _rep = 1;
-                            int _inc = 0;
-                            string _symbol = "", _rad;
-                            char[] _nChar = new char[0];
-                            int _radius = 10;
-                            //splitting the line to get params.
-                            string[] _sRadius = cmd[i].Split(' ');
-                            //saving the radius here
-                            _rad = _sRadius[1];
-                            try
+                            loopLine = i;
+                            //getting the amount of time the code needs to loop.
+                            string[] loopValue = program[i].Split(' ');
+                            string loopVal = loopValue[1];
+                            _loopTimes = Convert.ToInt32(loopVal);
+                            //Iterating through the program to find where the block command ends.
+                            for (int j = 0; j < program.Length; j++)
                             {
-                                //Getting circle command from factory.
-                                _shapes.Add(_shape.GetShape("circle"));
-
-
-                            }
-                            //Exception Handling if the shape isnt in the factory pattern.
-                            catch (ArgumentException)
-                            {
-                                Console.WriteLine("Invalid Shape: " + e);
-
-                            }
-                            if (_rad != "radius")
-                            {
-                                _radius = Convert.ToInt32(_rad);
-
-                            }
-                            for (int j = 0; j < _rep; j++)
-                            {
-                                //setting up the shape and adding color to it
-                                Shape shape_;
-                                Color color_ = _color;
-                                shape_ = _shape.GetShape("circle");
-                                if (cmd[i].Contains("texture"))
+                                //Checks for where the loop ends.
+                                if (program[j].Contains("stop"))
                                 {
-                                    Image _image = new Bitmap("pttrn.jpg");
-                                    TextureBrush _brush = new TextureBrush(_image);
-                                    _brush.Transform = new Matrix(
-                                         75.0f / 640.0f,
-                                       0.0f,
-                                       0.0f,
-                                       75.0f / 480.0f,
-                                       0.0f,
-                                       0.0f);
-                                    //To draw circle from centre
-                                    shape_.Set(_brush, _xpos - (_radius / 2), _ypos - (_radius / 2), _radius);
+                                    //Search for the first occurence of the duplicated value.
+                                    String searchString = "stop";
+                                    //Saves the array index where 'stop' occurs.
+                                    loopIndex = Array.IndexOf(program, searchString, i);
 
                                 }
-                                else
-                                {
-                                    shape_.Set(_color, _xpos - (_radius / 2), _ypos - (_radius / 2), _radius);
 
-                                }
-                                _shapes.Add(shape_);
-                                //Refreshing the picture box so circle becomes visible
-                                pictureBox1.Refresh();
+
                             }
+
+
                         }
-                        //Exception if there are too many or not enough params for circle
                         catch (IndexOutOfRangeException)
-                        {
-                            string _msg = "Only one parameter for circle";
-                            string _txt = "Unable to draw a circle";
-                            MessageBoxButtons _btns = MessageBoxButtons.OK;
-                            DialogResult _res;
-                            _res = MessageBox.Show(_msg, _txt, _btns);
-
-
-                        }
-                        //Exception  if the parameters are in the wrong format of the wrong data type.
+                        { }
                         catch (FormatException)
-                        {
-                            //Message saying that the parameters shoulc be integars.
-                            String _msg = "Format  must be in Integers";
-                            String _txt = "Unable to draw circle.";
-                            MessageBoxButtons _btns = MessageBoxButtons.OK;
-                            DialogResult _res;
-
-                            //Display the dialog box.
-                            _res = MessageBox.Show(_msg, _txt, _btns);
-                        }
-
-
-
-
+                        { }
+                    
+                    
                     }
-
-                    else if (cmd[i].Contains("rectangle"))
-                    {
-                        try
-                        {
-                            int _rep = 1;
-                            int _inc = 0;
-                            string _symbol = "";
-                            string _h = "";
-                            string _w = "";
-                            char[] _nChar = new char[0];
-                            int height_ = 10;
-                            int width_ = 10;
-                            //splitting the line to get params.
-                            string[] _sRect = cmd[i].Split(' ');
-                            //  if (!cmd[i].Contains("repeat"))
-                            // {
-                            //  _h = _sRect[1];
-                            // _w = _sRect[2];
-                            //}
-                            try
-                            {
-                                _shapes.Add(_shape.GetShape("rectangle"));
-
-                            }
-                            catch (ArgumentException)
-                            {
-                                Console.WriteLine("Invaid Shape: " + e);
-                            }
-                            if (_h == "height")
-                            {
-                                height_ = _height;
-                            }
-                            if (_h == "width")
-                            {
-                                height_ = _width;
-
-                            }
-                            if (_w == "height")
-                            {
-                                width_ = _height;
-                            }
-                            if (_w == "width")
-                            {
-                                width_ = _width;
-                            }
-                            Shape shape_;
-                            Color color_ = _color;
-                            shape_ = _shape.GetShape("rectangle");
-                            shape_.Set(color_, _xpos, _ypos, height_, width_);
-                            _shapes.Add(shape_);
-                            pictureBox1.Refresh();
-                        }
-                        //Exception Handling if there are too many or not enough parameters.
-                        catch (IndexOutOfRangeException)
-                        {
-
-                            String _msg = "Enter 2 parameters for Rectangle";
-                            String _txt = "Unable to draw a rectangle.";
-                            MessageBoxButtons _btns = MessageBoxButtons.OK;
-                            DialogResult _res;
-
-                            //Display the dialog box.
-                            _res = MessageBox.Show(_msg, _txt, _btns);
-                        }
-                        // if the parameters were the incorrect data type.
-                        catch (FormatException)
-                        {
-
-                            String _msg = "Must be Integars";
-                            String _txt = "Unable to draw a rectangle.";
-                            MessageBoxButtons _btns = MessageBoxButtons.OK;
-                            DialogResult _res;
-
-                            //Display the dialog box.
-                            _res = MessageBox.Show(_msg, _txt, _btns);
-                        }
-
-
-
-
-                    }
-                    else if (cmd[i].Contains("triangle"))
-                    {
-                        try
-                        {
-                            //Gets the triangle from factory class
-                            _shapes.Add(_shape.GetShape("triangle"));
-                        }
-                        //Exception if triangle is not available in factory..
-                        catch (ArgumentException)
-                        {
-                            Console.WriteLine("Invlaid Shape: " + e);
-                        }
-                        try
-                        {
-                            int _hyp = 10;
-                            int _base = 10;
-                            int _adj = 10;
-                            //Split the command to get triangle params.
-                            string[] _sTri = cmd[i].Split(' ');
-                            //string _h = _sTri[1];
-                           // string _a=_sTri[2];
-                           // string _b=_sTri[3];
-                            //Convert the Params to int.
-                           // _hyp = Convert.ToInt32(_h);
-                           // _base = Convert.ToInt32(_a);
-                          //  _adj = Convert.ToInt32(_b);
-                            Shape shape_;
-                            Color color_ = _color;
-                            shape_ = _shape.GetShape("triangle");
-                            shape_.Set(color_, _xpos, _ypos, _hyp, _base, _adj);
-                            _shapes.Add(shape_);
-                            pictureBox1.Refresh();
-
-                        
-                        }
-                        //Exception if there are too many or not enough parameters.
-                        catch (IndexOutOfRangeException)
-                        {
-                           
-                            String _msg = "No parameters more then 3 or less then 3 for triangle";
-                            String _txt = "Unable to draw a triangle.";
-                            MessageBoxButtons _btns= MessageBoxButtons.OK;
-                            DialogResult _res;
-
-                            //Display the dialog box.
-                            _res = MessageBox.Show(_msg, _txt, _btns);
-                        }
-                        //Exception saying the paramters for the triangle are incorrect.
-                        catch (FormatException)
-                        {
-                            
-                            String _msg = "Integars only";
-                            String _txt = "Unable to draw a triangle.";
-                            MessageBoxButtons _btns = MessageBoxButtons.OK;
-                            DialogResult _res;
-
-                            //Display the dialog box.
-                            _res = MessageBox.Show(_msg, _txt, _btns);
-                        }
-
-                    }
-
                 }
-                catch (ArgumentOutOfRangeException)
+                catch(ArgumentOutOfRangeException)
                 {
                     Console.WriteLine("Error");
                 }
             }
-
         }
 
     }

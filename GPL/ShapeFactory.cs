@@ -7,6 +7,7 @@ using System.Threading.Tasks;
 namespace GPL
 {
    /// <summary>
+   /// This is Factory Class....
    /// Factory Class gets the shape defined by user and points the program to run the code for that shape.
    /// 
    /// </summary>
