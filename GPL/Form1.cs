@@ -597,7 +597,25 @@ namespace GPL
 
 
                     }
-
+                    //Checking to see if user command has word 'colour'
+                    if (program[i].Contains("colour"))
+                    { 
+                      //Sets up a colour dialog  that will allow user to select colour.
+                      ColorDialog colorDilog = new ColorDialog();
+                        //Enables the different options for the colour dialog.
+                        colorDilog.AllowFullOpen = true;
+                        colorDilog.AnyColor = true;
+                        colorDilog.SolidColorOnly = false;
+                        //When the user clicks 'ok' the program will continue.
+                        if (colorDilog.ShowDialog() == DialogResult.OK)
+                        {
+                            //Changes the previously set up colour variable to the user's desired colour.
+                            userColor = colorDilog.Color;
+                        
+                        }
+                    
+                    
+                    }
                 }
                 catch(ArgumentOutOfRangeException)
                 {
