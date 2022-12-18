@@ -599,9 +599,9 @@ namespace GPL
                     }
                     //Checking to see if user command has word 'colour'
                     if (program[i].Contains("colour"))
-                    { 
-                      //Sets up a colour dialog  that will allow user to select colour.
-                      ColorDialog colorDilog = new ColorDialog();
+                    {
+                        //Sets up a colour dialog  that will allow user to select colour.
+                        ColorDialog colorDilog = new ColorDialog();
                         //Enables the different options for the colour dialog.
                         colorDilog.AllowFullOpen = true;
                         colorDilog.AnyColor = true;
@@ -611,13 +611,83 @@ namespace GPL
                         {
                             //Changes the previously set up colour variable to the user's desired colour.
                             userColor = colorDilog.Color;
-                        
+
+                        }
+
+
+                    }
+                    //Checks to see if the user entered 'drawline' command.
+                    else if (program[i].Contains("drawline") || ifCode.Contains("drawline"))
+                    {
+                        Console.WriteLine(ifCode);
+                        try
+                        {
+                            //Gets 'drawline' from the factory.
+                            _shapes.Add(factory.GetShape("drawline"));
+
+                        }
+                        //Catches and exceptions if the cmd isnt int the factory.
+                        catch (ArgumentException)
+                        {
+                            Console.WriteLine("Invalid shape: " + e);
+                        }
+                        //Splits the user's cmd to get the diff x,y params
+                        string[] stringRec = program[i].Split(' ');
+                        try
+                        {
+                            //Saves the x,y parameters in seperate strings the converts them to integars.
+                            string hei = stringRec[1];
+                            string wid = stringRec[2];
+                            _x = Convert.ToInt32(hei);
+                            _y = Convert.ToInt32(wid);
+                            //Sets up and draws the line to the screen.
+                            Shape s;
+                            Color newColor=userColor;
+                            s = factory.GetShape("drawline");
+                            s.Set(newColor, _xpos, _ypos, _x, _y);
+                            _shapes.Add(s);
+                            //Refreshing PictureBox so the new line is visible.
+                            pictureBox1.Refresh();
+                            //Updates the x,y co-ordinates so the next shape or line will draw from here.
+                            _xpos = _x;
+                            _ypos = _y;
+
+
+
+                        }
+                        //Exception in case there are too many or not enough parameters in the users cmd.
+                        catch (IndexOutOfRangeException)
+                        {
+                            //Message saying that the command needs two parameters.
+                            String message = "The number of parameters for drawing a line was unsuitable. It takes two parameters. " +
+                                "Error on line: " + lines;
+                            String caption = "Unable to draw a line.";
+                            MessageBoxButtons buttons = MessageBoxButtons.OK;
+                            DialogResult result;
+
+                            //Displays the dialog box.
+                            result = MessageBox.Show(message, caption, buttons);
+
+                        }
+                        //Exception in case the parameters are in the wrong format.
+                        catch (FormatException)
+                        {
+                            //Message saying that the paraemters are incorrect, e.g strings instead of integars.
+                            String message = "The format of the parameters is unsuitable. Ensure they are integars. " +
+                                "Error on line: " + lines;
+                            String caption = "Unable to draw a line.";
+                            MessageBoxButtons buttons = MessageBoxButtons.OK;
+                            DialogResult result;
+
+                            //Displays the dialog box.
+                            result = MessageBox.Show(message, caption, buttons);
+
                         }
                     
-                    
                     }
+                    //Checks to see if the user has entered 'movepen' in their commands.
                 }
-                catch(ArgumentOutOfRangeException)
+                catch (ArgumentOutOfRangeException)
                 {
                     Console.WriteLine("Error");
                 }
