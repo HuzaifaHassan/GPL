@@ -490,7 +490,7 @@ namespace GPL
                             {
                                 if (var <= number)
                                 {
-                                    //Checks to see if the IF statement was a one line or Block cmd.#
+                                    //Checks to see if the IF statement was a one line or Block cmd.
                                     if (program[i].Contains("then"))
                                     {
                                         //Splits the sinlge line cmd to get as it is supposed to perform.
@@ -500,7 +500,7 @@ namespace GPL
                                     //If the user specified a block command.
                                     else
                                     {
-                                        //For loop to iterate through the program to find where the block cmd ends.#
+                                        //For loop to iterate through the program to find where the block cmd ends.
                                         for (int o = i; o < program.Length; o++)
                                         {
                                             //Checking where the if statement ends.
@@ -750,6 +750,201 @@ namespace GPL
                             //Display the dialog box.
                             result = MessageBox.Show(message, caption, buttons);
                         }
+
+
+                    }
+                    //checking to see if user has entered circle in cmd.
+                    else if (program[i].Contains("circle"))
+                    {
+                        try
+                        {
+                            //Sets up variable for if the circle needs to be reported.
+                            int repeat = 1;
+                            int increment = 0;
+                            string symbol = "",rad;
+                            
+                            char[] myChar = new char[0];
+                            int radius1 = 10;
+                            //Splits the program to get parameters.
+                            string[] stringRadius = program[i].Split(' ');
+                            //If the users cmd also contains repeat then the circle needs extra variables.
+                            if (program[i].Contains("repeat"))
+                            {
+                                //Split it more to see how many times circle needs to repeat itself.
+                                string[] stringRep = program[i].Split(' ');
+                                //Saves the radius of circle.
+                                rad = stringRadius[3];
+                                //Checks to see if the circle needs to add pixels.
+                                if (program[i].Contains("+"))
+                                {
+                                    //Saves the + and makes it char.
+                                    symbol = "+";
+                                    myChar = symbol.ToCharArray();
+
+                                }
+                                //Checking to see if circle nees to reduce pixels
+                                else if (program[i].Contains("-"))
+                                {
+                                    //Saving - and making it a chat.
+                                    symbol = "-";
+                                    myChar = symbol.ToCharArray();
+
+                                }
+                                //Checks to see if the circle needs to multiply pixels.
+                                else if (program[i].Contains("*"))
+                                {
+                                    //Saves the * and makes it a char.
+                                    symbol = "*";
+                                    myChar = symbol.ToCharArray();
+                                }
+                                //Checking to see if the circle needs to divide pixels.
+                                else if (program[i].Contains("/"))
+                                {
+                                    //Saves the / and makes it char.
+                                    symbol = "/";
+                                    myChar=symbol.ToCharArray();
+                                
+                                }
+                                //If the program doesn't contain any of these then the repeat command is in the wrong order and the user will be told.
+                                else
+                                {
+                                    //Message saying that the symbol used in the repeat command is incorrect.
+                                    String message = "The mathematical symbol was unsuitable. Ensure it is an +, - *, /. " +
+                                        "Error on line: " + lines;
+                                    String caption = "Unable to draw a repeat rectangle.";
+                                    MessageBoxButtons buttons = MessageBoxButtons.OK;
+                                    DialogResult result;
+
+                                    //Display the dialog box.
+                                    result = MessageBox.Show(message, caption, buttons);
+                                }
+                                //Saves the repeat cmd variables and converts the cmds to int.
+                                string[] stringInc = program[i].Split(myChar);
+                                string inc = stringInc[1];
+                                string rep = stringRep[1];
+                                repeat =Convert.ToInt32(rep);
+                                increment = Convert.ToInt32(inc);
+                            }
+                            else
+                            {
+                                //If the circle isn't part of a repeat cmd,just save the radius normally.
+                                rad = stringRadius[1];
+
+                            }
+                            try
+                            {
+                                //Gets the circle command from factory
+                                _shapes.Add(factory.GetShape("circle"));
+                            }
+                            //Catches an exception if the shape isnt in factory
+                            catch (ArgumentException)
+                            {
+                                Console.WriteLine("Invalid shape: " + e);
+                            }
+                            //Checks if the radius is named as variable or a number by user.
+                            if (rad == "radius")
+                            {
+                                //If a variable is in place of the number,save it to a new int
+                                radius1 = radius1;
+                            
+                            }
+                            if (rad != "radius")
+                            { 
+                             //If  number then convert the number they input to an int.
+                             radius1=Convert.ToInt32(rad);
+                            }
+                            /*Loops through th drawing process for the circle based on how many increments the user defined int he repeat command. If the
+                            * command isn't a repeat then it will just go through once as normal.
+                            */
+                            for (int a = 0; a < repeat; a++)
+                            {
+                                //Sets up the shape and adds colour.
+                                Shape s;
+                                Color newColor = userColor;
+                                s = factory.GetShape("circle");
+                                if (program[i].Contains("texture"))
+                                {
+                                    Image img = new Bitmap("pttrn.jpg");
+                                    TextureBrush brush = new TextureBrush(img);
+                                    brush.Transform = new Matrix(
+                                        75.0f / 640.0f,
+                                        0.0f,
+                                        0.0f,
+                                        75.0f / 480.0f,
+                                        0.0f,
+
+                                        0.0f);
+                                    //Draws the shapes through the factory, adjusting so the circle draws from the center.
+                                    s.Set(brush, _xpos - (radius1 / 2), _ypos - (radius1 / 2), radius1);
+
+                                }
+                                else
+                                {
+                                    //Draws the shapes through the factory, adjusting so the circle draws from the center.
+                                    s.Set(newColor, _xpos - (radius1 / 2), _ypos - (radius1 / 2), radius1);
+
+
+                                }
+                                _shapes.Add(s);
+                                //Refresh the picture box so the circle is visible.
+                                pictureBox1.Refresh();
+                                //If the symbol entere by user in the repeat cmd was +.
+                                if (symbol == "+")
+                                {
+                                    //Add the inc from radius.
+                                    radius1 = radius1 + increment;
+
+                                }
+                                //If the symbol entered by the user in the repeat cmd was -
+                                else if (symbol == "-")
+                                {
+                                    //Subtract the inc from radius.
+                                    radius1 = radius1 - increment;
+
+                                }
+                                //If the symbol is *
+                                else if (symbol == "*")
+                                {
+                                    //Multiply in radius
+                                    radius1 = radius1 * increment;
+
+                                }
+                                //If the symbol is / 
+                                else if (symbol == "/")
+                                {
+                                    //Divide the increment with radius.
+                                    radius1 = radius1 / increment;
+                                }
+                            }
+                        }
+                        //Exception for if there were too many of not enough parameters for the circle.
+                        catch (IndexOutOfRangeException)
+                        {
+                            //Message saying that the file format chosen was usuitable for the program to open.
+                            String message = "The number of parameters for drawing a circle was unsuitable. It takes one parameters. " +
+                                "Error on line: " + lines;
+                            String caption = "Unable to draw a circle.";
+                            MessageBoxButtons buttons = MessageBoxButtons.OK;
+                            DialogResult result;
+
+                            //Shows the dialog box.
+                            result = MessageBox.Show(message, caption, buttons);
+                        }
+                        //Exception for if the circle parameters were not integars.
+                        catch (FormatException)
+                        {
+                            //Message saying that the file format chosen was usuitable for the program to open.
+                            String message = "The format of the parameters is unsuitable. Ensure they are integars. " +
+                                "Error on line: " + lines;
+                            String caption = "Unable to draw a circle.";
+                            MessageBoxButtons buttons = MessageBoxButtons.OK;
+                            DialogResult result;
+
+                            //Shows the dialog box.
+                            result = MessageBox.Show(message, caption, buttons);
+                        }
+
+
 
 
                     }
