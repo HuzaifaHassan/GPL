@@ -642,7 +642,7 @@ namespace GPL
                             _y = Convert.ToInt32(wid);
                             //Sets up and draws the line to the screen.
                             Shape s;
-                            Color newColor=userColor;
+                            Color newColor = userColor;
                             s = factory.GetShape("drawline");
                             s.Set(newColor, _xpos, _ypos, _x, _y);
                             _shapes.Add(s);
@@ -683,9 +683,76 @@ namespace GPL
                             result = MessageBox.Show(message, caption, buttons);
 
                         }
-                    
+
                     }
                     //Checks to see if the user has entered 'movepen' in their commands.
+                    else if (program[i].Contains("moveto"))
+                    {
+                        try
+                        {
+                            //Gets Move to from Factory.
+                            _shapes.Add(factory.GetShape("moveto"));
+                        }
+                        //Exception in case the movepen isn't in the factory class.
+
+                        catch (ArgumentException)
+                        {
+
+                            Console.WriteLine("Invalid shape: " + e);
+                        }
+                        //Splits the user's command to get the x,y parameters.
+                        string[] stringRec = program[i].Split(' ');
+                        try
+                        {
+                            //Saving x,y params individually and converting them to int.
+                            string hei = stringRec[1];
+                            string wid = stringRec[2];
+                            _x = Convert.ToInt32(hei);
+                            _y = Convert.ToInt32(wid);
+                            //Sets up the pen and moves is across the screen to desired location.
+                            Shape s;
+                            //Makes the pen transparent so nothing actually draws.
+                            Color newColor = Color.Transparent;
+                            s = factory.GetShape("moveto");
+                            s.Set(newColor, _xpos, _ypos, _x, _y);
+                            _shapes.Add(s);
+                            //Refresh the picture box to make sure the pen actually moves.
+                            pictureBox1.Refresh();
+                            //Updating x,y co ordinates so next shape or line will draw from there.
+                            _xpos = _x;
+                            _ypos = _y;
+
+
+                        }
+                        //Exception for if the there are too many or not enough parameters.
+                        catch (IndexOutOfRangeException)
+                        {
+                            //Message saying that the user's command had incorrect parameters.
+                            String message = "The number of parameters for moving the pen was unsuitable. It takes two parameters. " +
+                                "Error on line: " + lines;
+                            String caption = "Unable to move the pen.";
+                            MessageBoxButtons buttons = MessageBoxButtons.OK;
+                            DialogResult result;
+
+                            //Display the dialog box.
+                            result = MessageBox.Show(message, caption, buttons);
+                        }
+                        //Exception for if the parameters are in the wrong format of the wrong data type.
+                        catch (FormatException)
+                        {
+                            //Message saying that the parameters shoulc be integars.
+                            String message = "The format of the parameters is unsuitable. Ensure they are integars. " +
+                                "Error on line: " + lines;
+                            String caption = "Unable to move the pen.";
+                            MessageBoxButtons buttons = MessageBoxButtons.OK;
+                            DialogResult result;
+
+                            //Display the dialog box.
+                            result = MessageBox.Show(message, caption, buttons);
+                        }
+
+
+                    }
                 }
                 catch (ArgumentOutOfRangeException)
                 {
