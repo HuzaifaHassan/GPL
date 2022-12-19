@@ -761,8 +761,8 @@ namespace GPL
                             //Sets up variable for if the circle needs to be reported.
                             int repeat = 1;
                             int increment = 0;
-                            string symbol = "",rad;
-                            
+                            string symbol = "", rad;
+
                             char[] myChar = new char[0];
                             int radius1 = 10;
                             //Splits the program to get parameters.
@@ -802,8 +802,8 @@ namespace GPL
                                 {
                                     //Saves the / and makes it char.
                                     symbol = "/";
-                                    myChar=symbol.ToCharArray();
-                                
+                                    myChar = symbol.ToCharArray();
+
                                 }
                                 //If the program doesn't contain any of these then the repeat command is in the wrong order and the user will be told.
                                 else
@@ -822,7 +822,7 @@ namespace GPL
                                 string[] stringInc = program[i].Split(myChar);
                                 string inc = stringInc[1];
                                 string rep = stringRep[1];
-                                repeat =Convert.ToInt32(rep);
+                                repeat = Convert.ToInt32(rep);
                                 increment = Convert.ToInt32(inc);
                             }
                             else
@@ -846,12 +846,12 @@ namespace GPL
                             {
                                 //If a variable is in place of the number,save it to a new int
                                 radius1 = radius1;
-                            
+
                             }
                             if (rad != "radius")
-                            { 
-                             //If  number then convert the number they input to an int.
-                             radius1=Convert.ToInt32(rad);
+                            {
+                                //If  number then convert the number they input to an int.
+                                radius1 = Convert.ToInt32(rad);
                             }
                             /*Loops through th drawing process for the circle based on how many increments the user defined int he repeat command. If the
                             * command isn't a repeat then it will just go through once as normal.
@@ -946,6 +946,238 @@ namespace GPL
 
 
 
+
+                    }
+                    //checking if the user commands contains Rectangle.
+                    else if (program[i].Contains("rectangle"))
+                    {
+                        try
+                        {
+                            //Sets up the variables for if there is a repeat cmd.
+                            int repeat = 1;
+                            int increment = 0;
+                            string symbol="",hei,wid;
+                            char[] myChar = new char[0];
+                            int height1 = 10;
+                            int width1 = 10;
+                            //SPlits the cmd to get the different params.
+                            string[] stringRec = program[i].Split(' ');
+                            //Checks if the rectangle cmd needs to be repeated.
+                            if (program[i].Contains("repeat"))
+                            {
+                                //Splits it further for the repeat cmd.
+                                string[] stringRep = program[i].Split(' ');
+                                //Saves the height and width of the rectangle if its a part of repeat cmd.
+                                hei = stringRec[3];
+                                wid = stringRec[4];
+                                //Checks to see if cmd needs to add pixels btwn each rectangle.
+                                if (program[i].Contains("+"))
+                                {
+                                    //Saves the + and converts to a char.
+                                    symbol = "+";
+                                    myChar = symbol.ToCharArray();
+                                }
+                                //Checks if the repeat cmd needs to subtract pixels btwn each rectangle.
+                                else if (program[i].Contains("-"))
+                                {
+                                    //Saves the - and converts to a char.
+                                    symbol = "-";
+                                    myChar = symbol.ToCharArray();
+                                }
+                                //Checks if the repeat cmd needs to multiply pixels btwn each rectangle.
+                                else if (program[i].Contains("*"))
+                                {
+                                    //Saves * and converts it into a char.
+                                    symbol = "*";
+                                    myChar = symbol.ToCharArray();
+
+
+                                }
+                                //Checks if the repeat cmd needs to divide pixels btwn each rectangle.
+                                else if (program[i].Contains("/"))
+                                {
+                                    //Saves the / and converts to a char.
+                                    symbol = "/";
+                                    myChar = symbol.ToCharArray();
+
+
+                                }
+                                //If it contains none of these then the repeat command won't work and it will tell the user.
+                                else
+                                {
+                                    //Message saying that the symbol is incorrect and the rectangle can't repeat.
+                                    String message = "The mathematical symbol was unsuitable. Ensure it is an +, - *, /. " +
+                                        "Error on line: " + lines;
+                                    String caption = "Unable to draw a repeat rectangle.";
+                                    MessageBoxButtons buttons = MessageBoxButtons.OK;
+                                    DialogResult result;
+
+                                    //Shows the dialog box.
+                                    result = MessageBox.Show(message, caption, buttons);
+                                }
+                                //Saves the repeat variables and converts them to integars.
+                                string[] stringInc = program[i].Split(myChar);
+                                string inc = stringInc[1];
+                                string rep = stringRep[1];
+                                repeat = Convert.ToInt32(rep);
+                                increment = Convert.ToInt32(inc);
+
+
+
+                            }
+                            else
+                            { 
+                              //If there is no repeat cmd then save its height and width
+                                hei=stringRec[1];
+                                wid = stringRec[2];
+                            
+                            }
+                            try
+                            {
+                                //Get the rectangle functions from factory.
+
+                            }
+                            //Exception if it isnt found in factory.
+                            catch (ArgumentException)
+                            {
+                                Console.WriteLine("Invalid Shape: " + e);
+                            }
+                            //Checking to see if height and width of paramst use variables
+                            if (hei == "height")
+                            {
+                                height1 = _height;
+                            }
+                            if (hei == "width")
+                            {
+                                height1 = _width;
+                            }
+                            if (wid == "height")
+                            {
+                                width1 = _height;
+                            }
+                            if (wid == "width")
+                            {
+                                width1 = _width;
+                            }
+                            //If height and width were entered as numbers, it just converts them to integars.
+                            if (height1 != _height && width1 != _height)
+                            {
+                                //Converting the height to an integert.
+                                height1 = Convert.ToInt32(hei);
+                            
+                            }
+                            if (width1 != _width && height1 != _width)
+                            {
+                                //Converts the width to an integar.
+                                width1 = Convert.ToInt32(wid);
+                            }
+                            //If the repeat cmd was set then it will loop through the drawing proccess.
+                            for (int b = 0; b < repeat; b++)
+                            {
+                                Shape s;
+                                //Setting up the colour of rectangle to user specified.
+                                Color newColor = userColor;
+                                s = factory.GetShape("rectangle");
+                                //if the command contains the repeat command, it will draw the rectangle from centre.
+                                if (height1 == _width && width1 == _height && program[i].Contains("repeat"))
+                                {
+                                    //Passes through the variables and draws the shape to screen.
+                                    s.Set(newColor, _xpos - (width1 / 2), _ypos - (height1 / 2), height1, width1);
+                                    _shapes.Add(s);
+                                    //Refreshes the picture box so the rectangle is visible.
+                                    pictureBox1.Refresh();
+                                }
+                                else if (height1 != _width && width1 != _height && program[i].Contains("repeat"))
+                                {
+                                    //Passes through the variables and draws the shape to screen.
+                                    s.Set(newColor, _xpos - (width1 / 2), _ypos - (height1 / 2), width1, height1);
+                                    _shapes.Add(s);
+                                    //Refreshes the picture box so the rectangle is visible.
+                                    pictureBox1.Refresh();
+
+                                }
+                                else if (height1 == width1 && width1 == height1)
+                                {
+                                    //Passes through the variables and draws the shape to screen.
+                                    s.Set(newColor, _xpos, _ypos, height1, width1);
+                                    _shapes.Add(s);
+                                    //Refreshes the picture box so the rectangle is visible.
+                                    pictureBox1.Refresh();
+                                }
+                                else if (height1 == width1 && width1 == height1)
+                                {
+                                    //Passes through the variables and draws the shape to screen.
+                                    s.Set(newColor, _xpos, _ypos, height1, width1);
+                                    _shapes.Add(s);
+                                    //Refresh the picture box so the rectangle is visible.
+                                    pictureBox1.Refresh();
+                                }
+                                else if (height1 != _width && width1 != _height)
+                                {
+                                    //Passes through the variables and draws the shape to screen.
+                                    s.Set(newColor, _xpos, _ypos, width1, height1);
+                                    _shapes.Add(s);
+                                    //Refreshes the picture box so the rectangle is visible.
+                                    pictureBox1.Refresh();
+                                 
+                                }
+                                //Uses the + symbol to find the pixel distance betwn the repeating rectangle.
+                                if (symbol == "+")
+                                {
+                                    //Increments the rectangle pixels.
+                                    height1 = height1 + increment;
+                                    width1 = width1 + increment;
+
+                                }
+                                else if (symbol == "-")
+                                {
+                                    //Subtracts the rectangles pixels.
+                                    height1 = height1 - increment;
+                                    width1 = width1 - increment;
+                                }
+                                else if (symbol == "*")
+                                {
+                                    //Multiplying Rectangle pixels.
+                                    height1 = height1 * increment;
+                                    width1 = width1 * increment;
+
+
+                                }
+                                else if (symbol == "/")
+                                {
+                                    //Dividing the rectangles pixels.
+                                    height1 = height1 / increment;
+                                    width1 = width1 / increment;
+                                }
+
+                            }
+                        }
+                        //Catches the exception for if there are too many or not enough parameters.
+                        catch (IndexOutOfRangeException)
+                        {
+                            //Message saying that the rectangle needs two parameters to draw.
+                            String message = "The number of parameters for drawing a rectangle was unsuitable. It takes two parameters. " +
+                                "Error on line: " + lines;
+                            String caption = "Unable to draw a rectangle.";
+                            MessageBoxButtons buttons = MessageBoxButtons.OK;
+                            DialogResult result;
+
+                            //Display the dialog box.
+                            result = MessageBox.Show(message, caption, buttons);
+                        }
+                        //Exception for if the parameters were the incorrect data type.
+                        catch (FormatException)
+                        {
+                            //Message saying that the parameters should be integars.
+                            String message = "The format of the parameters is unsuitable. Ensure they are integars. " +
+                                "Error on line: " + lines;
+                            String caption = "Unable to draw a rectangle.";
+                            MessageBoxButtons buttons = MessageBoxButtons.OK;
+                            DialogResult result;
+
+                            //Display the dialog box.
+                            result = MessageBox.Show(message, caption, buttons);
+                        }
 
                     }
                 }
