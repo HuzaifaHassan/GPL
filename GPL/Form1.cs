@@ -1191,9 +1191,9 @@ namespace GPL
                         //Exception if it is not in factory
                         catch (ArgumentException)
                         {
-                            Console.WriteLine("Invalid Shape:"+e);
+                            Console.WriteLine("Invalid Shape:" + e);
 
-                            
+
                         }
                         try
                         {
@@ -1212,7 +1212,7 @@ namespace GPL
                             adj = Convert.ToInt32(bas);
                             Shape s;
                             //Change the colour to the user's selected colour.
-                            Color newColor=userColor;
+                            Color newColor = userColor;
                             s = factory.GetShape("triangle");
                             //Pass through the paramaters and draw the triangle.
                             s.Set(newColor, _xpos, _ypos, hyp, triBase, adj);
@@ -1248,6 +1248,70 @@ namespace GPL
                             result = MessageBox.Show(message, caption, buttons);
                         }
 
+
+                    }
+                    //Checks the user's cmd has Square in it.
+                    else if (program[i].Contains("square"))
+                    {
+                        try
+                        {
+                            //Get the Shape from the factory.
+                            _shapes.Add(factory.GetShape("square"));
+                        }
+                        //Exception for if the square shape could,nt be found in factory.
+                        catch (ArgumentException)
+                        {
+
+                            Console.WriteLine("Invalid Shape: "+ e);
+                        }
+                        try
+                        {
+                            //Sets up the variables for square.
+                            int sides = 0;
+                            //Splits the parameters for square's sides.
+                            string[] stringSqu = program[i].Split(' ');
+                            string side = stringSqu[1];
+                            //Converts the side to an integar.
+                            sides=Convert.ToInt32(side);
+                            Shape s;
+                            //Making to to the user defined color.
+                            Color newColor = userColor;
+                            s = factory.GetShape("square");
+                            //Make through the param and draws the square.
+                            s.Set(newColor, _xpos, _ypos, sides, sides);
+                            _shapes.Add(s);
+                            //Refreshing the pictureBox.
+                            pictureBox1.Refresh();
+                           
+                        
+                        
+                        }
+                        //Exception for if there are too many or not enough parameters.
+                        catch (IndexOutOfRangeException)
+                        {
+                            //Message saying that the square shape requires one parameter.
+                            String message = "The number of parameters for drawing a square was unsuitable. It takes one parameters. " +
+                                "Error on line: " + lines;
+                            String caption = "Unable to draw a square.";
+                            MessageBoxButtons buttons = MessageBoxButtons.OK;
+                            DialogResult result;
+
+                            //Display the dialog box.
+                            result = MessageBox.Show(message, caption, buttons);
+                        }
+                        //Exception for if the paramter was the wrong data type.
+                        catch (FormatException)
+                        {
+                            //Message saying that the square parameter needs to be an integar.
+                            String message = "The format of the parameters is unsuitable. Ensure they are integars. " +
+                                "Error on line: " + lines;
+                            String caption = "Unable to draw a square.";
+                            MessageBoxButtons buttons = MessageBoxButtons.OK;
+                            DialogResult result;
+
+                            //Display the dialog box.
+                            result = MessageBox.Show(message, caption, buttons);
+                        }
 
                     }
                     
