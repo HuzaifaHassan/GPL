@@ -956,7 +956,7 @@ namespace GPL
                             //Sets up the variables for if there is a repeat cmd.
                             int repeat = 1;
                             int increment = 0;
-                            string symbol="",hei,wid;
+                            string symbol = "", hei, wid;
                             char[] myChar = new char[0];
                             int height1 = 10;
                             int width1 = 10;
@@ -1026,11 +1026,11 @@ namespace GPL
 
                             }
                             else
-                            { 
-                              //If there is no repeat cmd then save its height and width
-                                hei=stringRec[1];
+                            {
+                                //If there is no repeat cmd then save its height and width
+                                hei = stringRec[1];
                                 wid = stringRec[2];
-                            
+
                             }
                             try
                             {
@@ -1064,7 +1064,7 @@ namespace GPL
                             {
                                 //Converting the height to an integert.
                                 height1 = Convert.ToInt32(hei);
-                            
+
                             }
                             if (width1 != _width && height1 != _width)
                             {
@@ -1119,7 +1119,7 @@ namespace GPL
                                     _shapes.Add(s);
                                     //Refreshes the picture box so the rectangle is visible.
                                     pictureBox1.Refresh();
-                                 
+
                                 }
                                 //Uses the + symbol to find the pixel distance betwn the repeating rectangle.
                                 if (symbol == "+")
@@ -1180,6 +1180,77 @@ namespace GPL
                         }
 
                     }
+                    //Checks to see if there is triangle in User's cmd
+                    else if (program[i].Contains("traingle"))
+                    {
+                        try
+                        {
+                            //Getting triangle class from factory.
+                            _shapes.Add(factory.GetShape("triangle"));
+                        }
+                        //Exception if it is not in factory
+                        catch (ArgumentException)
+                        {
+                            Console.WriteLine("Invalid Shape:"+e);
+
+                            
+                        }
+                        try
+                        {
+                            //Set up the variables used to draw the triangle.
+                            int hyp = 10;
+                            int triBase = 10;
+                            int adj = 10;
+                            //Split the user's cmd to get the triangle parameters.
+                            string[] stringTri = program[i].Split(' ');
+                            string hei = stringTri[1];
+                            string wid = stringTri[2];
+                            string bas = stringTri[3];
+                            //Convert params into integars.
+                            hyp = Convert.ToInt32(hei);
+                            triBase = Convert.ToInt32(wid);
+                            adj = Convert.ToInt32(bas);
+                            Shape s;
+                            //Change the colour to the user's selected colour.
+                            Color newColor=userColor;
+                            s = factory.GetShape("triangle");
+                            //Pass through the paramaters and draw the triangle.
+                            s.Set(newColor, _xpos, _ypos, hyp, triBase, adj);
+                            _shapes.Add(s);
+                            //Refreshing the picture box.
+                            pictureBox1.Refresh();
+
+                        }
+                        //Exception for if there are too many or not enough parameters.
+                        catch (IndexOutOfRangeException)
+                        {
+                            //Message saying that the triangle requires three parameters.
+                            String message = "The number of parameters for drawing a triangle was unsuitable. It takes three parameters. " +
+                                "Error on line: " + lines;
+                            String caption = "Unable to draw a triangle.";
+                            MessageBoxButtons buttons = MessageBoxButtons.OK;
+                            DialogResult result;
+
+                            //Display the dialog box.
+                            result = MessageBox.Show(message, caption, buttons);
+                        }
+                        //Exception saying the paramters for the triangle are incorrect.
+                        catch (FormatException)
+                        {
+                            //Message saying that the parameters must be integars.
+                            String message = "The format of the parameters is unsuitable. Ensure they are integars. " +
+                                "Error on line: " + lines;
+                            String caption = "Unable to draw a triangle.";
+                            MessageBoxButtons buttons = MessageBoxButtons.OK;
+                            DialogResult result;
+
+                            //Display the dialog box.
+                            result = MessageBox.Show(message, caption, buttons);
+                        }
+
+
+                    }
+                    
                 }
                 catch (ArgumentOutOfRangeException)
                 {
