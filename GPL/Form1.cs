@@ -1362,7 +1362,7 @@ namespace GPL
                             string[] value = program[i].Split('+');
                             string rad = value[1];
                             //Converts the parameter to an integar.
-                            int addRad=Convert.ToInt32(rad);
+                            int addRad = Convert.ToInt32(rad);
                             _height = _height - addRad;
                         }
                         //Exception for if there are too many or not enough parameters.
@@ -1391,6 +1391,47 @@ namespace GPL
                             //Displays the dialog box.
                             result = MessageBox.Show(message, caption, buttons);
                         }
+
+                    }
+                    //Checks to see if the user defined the width variable.
+                    else if (program[i].Contains("width=") || program[i].Contains("width ="))
+                    {
+                        try
+                        {
+                            //Splits the cmd to get width's param.
+                            string[] value = program[i].Split('=');
+                            string wid = value[1];
+                            //Converts the width param to an integer and save it for the later use.
+                            _width = Convert.ToInt32(wid);
+
+                        }
+                        //Exception for if there are too many or not enough parameters.
+                        catch (IndexOutOfRangeException)
+                        {
+                            //Message saying that the width variable requires one parameter.
+                            String message = "The number of parameters for saving the width variable was unsuitable. It takes one parameters. " +
+                                "Error on line: " + lines;
+                            String caption = "Unable to draw a square.";
+                            MessageBoxButtons buttons = MessageBoxButtons.OK;
+                            DialogResult result;
+
+                            //Displays the dialog box.
+                            result = MessageBox.Show(message, caption, buttons);
+                        }
+                        //Exception for if the width variable parameter is using an incorrect data type.
+                        catch (FormatException)
+                        {
+                            //Message saying that the parameter must be an intergar.
+                            String message = "The format of the parameters is unsuitable. Ensure they are integars. " +
+                                "Error on line: " + lines;
+                            String caption = "Unable to draw a square.";
+                            MessageBoxButtons buttons = MessageBoxButtons.OK;
+                            DialogResult result;
+
+                            //Displays the dialog box.
+                            result = MessageBox.Show(message, caption, buttons);
+                        }
+
 
                     }
                     
