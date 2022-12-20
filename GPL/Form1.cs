@@ -1441,7 +1441,7 @@ namespace GPL
                         {
                             //Splits the command to get to the variable's parameter.
                             string[] value = program[i].Split('+');
-                            string rad= value[1];
+                            string rad = value[1];
                             //Converts the parameter to an integar.
                             int addRad = Convert.ToInt32(rad);
                             _width = _width + addRad;
@@ -1475,6 +1475,127 @@ namespace GPL
                             result = MessageBox.Show(message, caption, buttons);
                         }
 
+                    }
+                    //Checks if the user defined the radius variable.#
+                    else if (program[i].Contains("width-") || program[i].Contains("width - "))
+                    {
+                        try
+                        {
+                            //Splits the cmd to get the variable's param/
+                            string[] value = program[i].Split('+');
+                            string rad = value[1];
+                            //Converts the parameter to an integar.
+                            int subRad = Convert.ToInt32(rad);
+                            _width = _width - subRad;
+
+                        }
+                        //Exception for if there are too many or not enough parameters.
+                        catch (IndexOutOfRangeException)
+                        {
+                            //Message saying that the radius variable needs only one parameter.
+                            String message = "The number of parameters for the radius variable was unsuitable. It takes one parameters. " +
+                                "Error on line: " + lines;
+                            String caption = "Unable to draw a square.";
+                            MessageBoxButtons buttons = MessageBoxButtons.OK;
+                            DialogResult result;
+
+                            //Displays the dialog box.
+                            result = MessageBox.Show(message, caption, buttons);
+                        }
+                        //Exception for if the width variable parameter is using an incorrect data type.
+                        catch (FormatException)
+                        {
+                            //Message saying that the data type of the radius variable must be an integar.
+                            String message = "The format of the parameters is unsuitable. Ensure they are integars. " +
+                                "Error on line: " + lines;
+                            String caption = "Unable to draw a circle.";
+                            MessageBoxButtons buttons = MessageBoxButtons.OK;
+                            DialogResult result;
+
+                            //Displays the dialog box.
+                            result = MessageBox.Show(message, caption, buttons);
+                        }
+
+                    }
+                    //Checks if the user defines radius.
+                    else if (program[i].Contains("radius+") || program[i].Contains("radius + "))
+                    {
+                        try
+                        {
+                            //SPlits the command to get the variable's parameter.
+                            string[] value = program[i].Split('+');
+                            string rad = value[1];
+                            //Converts the paramter to and integar.
+                            int addRadd = Convert.ToInt32(rad);
+                            _radius = _radius + addRadd;
+
+                        }
+                        //Exception for if there are too many or not enough parameters.
+                        catch (IndexOutOfRangeException)
+                        {
+                            //Message saying that the radius variable needs only one parameter.
+                            String message = "The number of parameters for the radius variable was unsuitable. It takes one parameters. " +
+                                "Error on line: " + lines;
+                            String caption = "Unable to draw a square.";
+                            MessageBoxButtons buttons = MessageBoxButtons.OK;
+                            DialogResult result;
+
+                            //Displays the dialog box.
+                            result = MessageBox.Show(message, caption, buttons);
+                        }
+                        //Exception for if the width variable parameter is using an incorrect data type.
+                        catch (FormatException)
+                        {
+                            //Message saying that the data type of the radius variable must be an integar.
+                            String message = "The format of the parameters is unsuitable. Ensure they are integars. " +
+                                "Error on line: " + lines;
+                            String caption = "Unable to draw a circle.";
+                            MessageBoxButtons buttons = MessageBoxButtons.OK;
+                            DialogResult result;
+
+                            //Displays the dialog box.
+                            result = MessageBox.Show(message, caption, buttons);
+                        }
+
+                    }
+                    //Checks if the user defined the radius variable.
+                    else if (program[i].Contains("radius-") || program[i].Contains("radius - "))
+                    {
+                        try
+                        {
+                            //Splits the command to get to the variable's parameter.
+                            string[] value = program[i].Split('+');
+                            string rad = value[1];
+                            //Converts the parameter to an integar.
+                            int subRad = Convert.ToInt32(rad);
+                            _radius = _radius - subRad;
+                        }
+                        //Exception for if there are too many or not enough parameters.
+                        catch (IndexOutOfRangeException)
+                        {
+                            //Message saying that the radius variable needs only one parameter.
+                            String message = "The number of parameters for the radius variable was unsuitable. It takes one parameters. " +
+                                "Error on line: " + lines;
+                            String caption = "Unable to draw a square.";
+                            MessageBoxButtons buttons = MessageBoxButtons.OK;
+                            DialogResult result;
+
+                            //Displays the dialog box.
+                            result = MessageBox.Show(message, caption, buttons);
+                        }
+                        //Exception for if the width variable parameter is using an incorrect data type.
+                        catch (FormatException)
+                        {
+                            //Message saying that the data type of the radius variable must be an integar.
+                            String message = "The format of the parameters is unsuitable. Ensure they are integars. " +
+                                "Error on line: " + lines;
+                            String caption = "Unable to draw a circle.";
+                            MessageBoxButtons buttons = MessageBoxButtons.OK;
+                            DialogResult result;
+
+                            //Displays the dialog box.
+                            result = MessageBox.Show(message, caption, buttons);
+                        }
                     }
                     
                 }
