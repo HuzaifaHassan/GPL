@@ -1262,7 +1262,7 @@ namespace GPL
                         catch (ArgumentException)
                         {
 
-                            Console.WriteLine("Invalid Shape: "+ e);
+                            Console.WriteLine("Invalid Shape: " + e);
                         }
                         try
                         {
@@ -1272,7 +1272,7 @@ namespace GPL
                             string[] stringSqu = program[i].Split(' ');
                             string side = stringSqu[1];
                             //Converts the side to an integar.
-                            sides=Convert.ToInt32(side);
+                            sides = Convert.ToInt32(side);
                             Shape s;
                             //Making to to the user defined color.
                             Color newColor = userColor;
@@ -1282,9 +1282,9 @@ namespace GPL
                             _shapes.Add(s);
                             //Refreshing the pictureBox.
                             pictureBox1.Refresh();
-                           
-                        
-                        
+
+
+
                         }
                         //Exception for if there are too many or not enough parameters.
                         catch (IndexOutOfRangeException)
@@ -1310,6 +1310,85 @@ namespace GPL
                             DialogResult result;
 
                             //Display the dialog box.
+                            result = MessageBox.Show(message, caption, buttons);
+                        }
+
+                    }
+                    //Checks if the user defined height variable.
+                    else if (program[i].Contains("height=") || program[i].Contains("height ="))
+                    {
+                        try
+                        {
+                            //Splitting user command to get height.
+                            string[] value = program[i].Split('=');
+                            string hei = value[1];
+                            //Converts the height to an integar and saves it so it may be used in conjunction with different shapes.
+                            _height = Convert.ToInt32(hei);
+                        }
+                        //Exception for if there are too many or not enough paramters.
+                        catch (IndexOutOfRangeException)
+                        {
+                            //Message saying that the height variable only needs one paramter.
+                            String message = "The number of parameters for saving the height variable was unsuitable. It takes one parameters. " +
+                                "Error on line: " + lines;
+                            String caption = "Unable to draw a square.";
+                            MessageBoxButtons buttons = MessageBoxButtons.OK;
+                            DialogResult result;
+
+                            //Display the dialog box.
+                            result = MessageBox.Show(message, caption, buttons);
+                        }
+                        //Exception saying that the variable parameter is the incorrect data type.
+                        catch (FormatException)
+                        {
+                            //Message saying that the file format chosen was usuitable for the program to open..
+                            String message = "The format of the parameters is unsuitable. Ensure they are integars. " +
+                                "Error on line: " + lines;
+                            String caption = "Unable to draw a square.";
+                            MessageBoxButtons buttons = MessageBoxButtons.OK;
+                            DialogResult result;
+
+                            //Display the dialog box.
+                            result = MessageBox.Show(message, caption, buttons);
+                        }
+
+                    }
+                    //Checking to see if user has radius defined.
+                    else if (program[i].Contains("height-") || program[i].Contains("height - "))
+                    {
+                        try
+                        {
+                            //Splits the cmd to get variable's param.
+                            string[] value = program[i].Split('+');
+                            string rad = value[1];
+                            //Converts the parameter to an integar.
+                            int addRad=Convert.ToInt32(rad);
+                            _height = _height - addRad;
+                        }
+                        //Exception for if there are too many or not enough parameters.
+                        catch (IndexOutOfRangeException)
+                        {
+                            //Message saying that the radius variable needs only one parameter.
+                            String message = "The number of parameters for the radius variable was unsuitable. It takes one parameters. " +
+                                "Error on line: " + lines;
+                            String caption = "Unable to draw a square.";
+                            MessageBoxButtons buttons = MessageBoxButtons.OK;
+                            DialogResult result;
+
+                            //Displays the dialog box.
+                            result = MessageBox.Show(message, caption, buttons);
+                        }
+                        //Exception for if the width variable parameter is using an incorrect data type.
+                        catch (FormatException)
+                        {
+                            //Message saying that the data type of the radius variable must be an integar.
+                            String message = "The format of the parameters is unsuitable. Ensure they are integars. " +
+                                "Error on line: " + lines;
+                            String caption = "Unable to draw a circle.";
+                            MessageBoxButtons buttons = MessageBoxButtons.OK;
+                            DialogResult result;
+
+                            //Displays the dialog box.
                             result = MessageBox.Show(message, caption, buttons);
                         }
 
