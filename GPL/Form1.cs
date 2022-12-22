@@ -1597,7 +1597,163 @@ namespace GPL
                             result = MessageBox.Show(message, caption, buttons);
                         }
                     }
+                    //Checks if the user defines radius.
+                    else if (program[i].Contains("radius=") || program[i].Contains("radius = "))
+                    {
+                        try
+                        {
+                            //Splits the command to get to the variable's param
+                            string[] value = program[i].Split('=');
+                            string rad = value[1];
+                            //Converts the parameter to an integer.
+                            _radius = Convert.ToInt32(rad);
+                        }
+                        //Exception for if there are too many or not enough parameters.
+                        catch (IndexOutOfRangeException)
+                        {
+                            //Message saying that the radius variable needs only one parameter.
+                            String message = "The number of parameters for the radius variable was unsuitable. It takes one parameters. " +
+                                "Error on line: " + lines;
+                            String caption = "Unable to draw a square.";
+                            MessageBoxButtons buttons = MessageBoxButtons.OK;
+                            DialogResult result;
+
+                            //Displays the dialog box.
+                            result = MessageBox.Show(message, caption, buttons);
+                        }
+                        //Exception for if the width variable parameter is using an incorrect data type.
+                        catch (FormatException)
+                        {
+                            //Message saying that the data type of the radius variable must be an integar.
+                            String message = "The format of the parameters is unsuitable. Ensure they are integars. " +
+                                "Error on line: " + lines;
+                            String caption = "Unable to draw a circle.";
+                            MessageBoxButtons buttons = MessageBoxButtons.OK;
+                            DialogResult result;
+
+                            //Displays the dialog box.
+                            result = MessageBox.Show(message, caption, buttons);
+                        }
+
+
+                    }
+                    //If the user's program contains 'load file' the program will open a previously made piece of code.
+                    else if (program[i].Contains("load file"))
+                    {
+                        //Clear the textbox.
+                        richTextBox1.Clear();
+                        //If the file cannot be opened, the program will watch the error.
+                        try
+                        {
+                            //Allowing user to select its file.
+                            OpenFileDialog file = new OpenFileDialog();
+                            if (file.ShowDialog() == DialogResult.OK)
+                            {
+                                //Read the files and saves it to a string.
+                                string sourceCode = File.ReadAllText(file.FileName);
+                                richTextBox1.AppendText(sourceCode);
+
+                            }
+
+                        }
+                        //Exception for I/O Erros with  files.
+                        catch (IOException)
+                        {
+                            //Message saying that the file format chosen was unsuitable for the program to open.
+                            String message = "Cannot open this specific file.";
+                            String caption = "Unable to open.";
+                            MessageBoxButtons buttons = MessageBoxButtons.OK;
+                            DialogResult result;
+
+                            //Display the dialog box.
+                            result = MessageBox.Show(message, caption, buttons);
+
+                        }
+
+                    }
+                    //Will exit the program.
+                    else if (program[i].Contains("exit"))
+                    {
+                        //Displays a message asking for confirmation to close the program.
+                        String message = "Exit the program?";
+                        String caption = "Exit";
+                        MessageBoxButtons buttons = MessageBoxButtons.YesNo;
+                        DialogResult result;
+
+                        //Display the dialog box.
+                        result = MessageBox.Show(message, caption, buttons);
+
+                        //If yes then close the program.
+                        if (result == DialogResult.Yes)
+                        {
+                            //Closes the program.
+                            Application.Exit();
+                        }
+
+                    }
+                    //Will CLear the picturebox if requested by user.
+                    else if (program[i].Contains("clear"))
+                    {
+                        try
+                        {
+                            //Gets the clear function from the factory.
+                            _shapes.Add(factory.GetShape("clear"));
+
+
+                        }
+                        //Exception if the clear function couldn't be found in factory.
+                        catch (ArgumentException)
+                        {
+
+                            Console.WriteLine("Invalid Shape: " + e);
+                        }
+                        Shape s;
+                        //Sets the color to black will reset the picture box.
+                        Color newColor = Color.Black;
+                        s = factory.GetShape("clear");
+                        //Passes through the variables and clears the picture box.#
+                        s.Set(newColor, 0, 0, 10000, 10000);
+
+                        _shapes.Add(s);
+                        //Refreh the picture box so reset becomes visible.
+                        pictureBox1.Refresh();
+                        //Setting x,y coordinated back to the original in the top left corner.
+                        _xpos = 0;
+                        _ypos = 0;
+
+                    }
+                    else if (program[i].Contains("end"))
+                    {
+
+                    }
+                    else if (program[i].Contains("stop"))
+                    {
+                        if (_loopTimes == loop)
+                        {
+
+                            //If it's not empty then just skip the if statement as it is false.
+                            i = loopIndex + 1;
+                        }
+                        if (_loopTimes != loop)
+                        {
+
+                            loop++;
+                            i = loopLine;
+                        }
                     
+                    }
+                    //If the user's program equals nothing perform no actions.
+                    else if (program[i].Equals("") || program[i].Equals(" ") || program[i] == null)
+                    {
+
+                    }
+                    else
+                    {
+
+                    }
+                    //Increment the line so they user know which line an error occurs on.
+                    lines++;
+
                 }
                 catch (ArgumentOutOfRangeException)
                 {
