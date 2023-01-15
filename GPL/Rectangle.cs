@@ -49,5 +49,6 @@ namespace GPL
             SolidBrush _b = new SolidBrush(_color);
             g.DrawRectangle(_p, _x, _y, _width, _height);
         }
+      
     }
 }

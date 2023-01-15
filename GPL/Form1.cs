@@ -32,14 +32,22 @@ namespace GPL
 
         private void Form1_Load(object sender, EventArgs e)
         {
+            label1.Text = "";
+            label1.ForeColor = Color.Red;
+            label1.BackColor = Color.Black;
 
         }
         //setting up an array to store in the shapes..
         ArrayList _shapes = new ArrayList();
         //Protected integars used for position of pointer and measurements of shapes.
         protected int _xpos, _ypos, _x, _y, _height = 0, _width = 0, _radius = 0,_loopTimes,loop=0,loopLine,loopIndex;
+        
+        private void label1_Click(object sender, EventArgs e)
+        {
 
-      
+        }
+
+
 
 
 
@@ -190,6 +198,13 @@ namespace GPL
                     Console.WriteLine("invalid shape in array");
 
             }
+        }
+        private void FillRectangle(Color color)
+        {
+            Graphics g = this.CreateGraphics();
+            SolidBrush brush = new SolidBrush(color);
+            g.FillRectangle(brush,100,100,200,200);
+        
         }
         /// <summary>
         /// FUnctionality for Run button to run the commands written by user..
@@ -569,31 +584,362 @@ namespace GPL
                         catch (IndexOutOfRangeException)
                         {
                             //Message saying that the if command needs two parameters.
-                            String message = "The number of parameters for performing an If statement was unsuitable. " +
+                            //String message = "The number of parameters for performing an If statement was unsuitable. " +
+                            //    "Error on line: " + lines;
+                            //String caption = "Unable to perform If statement.";
+                            //MessageBoxButtons buttons = MessageBoxButtons.OK;
+                            //DialogResult result;
+                            label1.Text= "The number of parameters for performing an If statement was unsuitable. " +
                                 "Error on line: " + lines;
-                            String caption = "Unable to perform If statement.";
-                            MessageBoxButtons buttons = MessageBoxButtons.OK;
-                            DialogResult result;
-
                             //Displays the dialog box.
-                            result = MessageBox.Show(message, caption, buttons);
+                            //result = MessageBox.Show(message, caption, buttons);
+
 
                         }
                         catch (FormatException)
                         {
                             //Message saying that the parameters are incorrect, e.g strings instead of integars.
-                            String message = "The format of the parameters is unsuitable. Ensure they are integars. " +
+                            //String message = "The format of the parameters is unsuitable. Ensure they are integars. " +
+                            //    "Error on line: " + lines;
+                            //String caption = "Unable to perform If statement.";
+                            //MessageBoxButtons buttons = MessageBoxButtons.OK;
+                            //DialogResult result;
+                            label1.Text= "The format of the parameters is unsuitable. Ensure they are integars. " +
                                 "Error on line: " + lines;
-                            String caption = "Unable to perform If statement.";
-                            MessageBoxButtons buttons = MessageBoxButtons.OK;
-                            DialogResult result;
-
                             //Displays the dialog box.
-                            result = MessageBox.Show(message, caption, buttons);
+                            //result = MessageBox.Show(message, caption, buttons);
 
 
                         }
 
+
+
+                    }
+                    //Cheks whether the user has issued a while loop
+                    if (program[i].Contains("while"))
+                    {
+                        try
+                        {
+                            //Setting up variable to save comparisions.
+                            int var = 0;
+                            //SPlitting the command line and assigning the values to variables.
+                            string[] value = program[i].Split(' ');
+                            string variable = value[1];
+                            string symbol = value[2];
+                            string num = value[3];
+                            int number = 0;
+                            //Saving the variable as value for Radius.
+                            if (variable == "radius")
+                            {
+                                var = _radius;
+                            }
+                            //Saving the variable as value for height.
+                            else if (variable == "height")
+                            {
+                                var = _height;
+                            }
+                            //Saving the variable as value for width.
+                            else if (variable == "width")
+                            {
+                                var = _width;
+
+                            }
+                            else
+                            {
+                                var = Convert.ToInt32(variable);
+                            }
+                            if (num == "radius")
+                            {
+                                number = _radius;
+                            }
+                            else if (num == "height")
+                            {
+                                number = _height;
+                            }
+                            else if (num == "width")
+                            {
+                                number = _width;
+                            }
+                            else
+                            {
+                                number = Convert.ToInt32(num);
+
+                            }
+                            if (symbol == "=")
+                            {
+                                //Ensure the values are equal.
+                                if (var == number)
+                                {
+                                    //Checks to see if the while loop was a  block cmd.
+                                    if (program[i].Contains("Do"))
+                                    {
+                                        //Splits the single line command to get the command it is supposed to perform
+                                        program[i] = program[i].Split(new[] { "Do " }, StringSplitOptions.None)[1];
+
+
+                                    }
+                                    //if it is a block command.
+                                    else
+                                    {
+                                        //For loop to iterate through the program to find where the block command ends.
+                                        for (int k = i; k < program.Length; k++)
+                                        {
+                                            //Checks where the if statement ends.
+                                            if (program[k].Contains("end"))
+                                            {
+                                                //Search for the first occurrence of the duplicated value.
+                                                String searchString = "end";
+                                                //Saves the array index where 'end' occurs.
+                                                if (program[k].Contains("end"))
+                                                {
+                                                    //Search for the first occurence of the duplicated value
+                                                    String searchSring = "end";
+                                                    //Saves the array index where 'end' occurs.
+                                                    int index = Array.IndexOf(program, searchString);
+
+
+                                                }
+
+                                            }
+
+                                        }
+
+                                    }
+
+                                }
+                                //If the number doesn't equal the variable.
+                                else
+                                {
+                                    //If the number isnt eual to the variable but still contains 'Do'.
+                                    if (program[i].Contains("Do"))
+                                    {
+                                        //Checks to see if the next index is empty in the program array.
+                                        string nextIndex = program[i + 1];
+                                        if (nextIndex != null)
+                                        {
+                                            //if it's not empty then just skip the if statement as it is false.
+                                            i = i + 1;
+
+
+                                        }
+
+                                    }
+                                    //if it is a block statemtn where the variable isnt equal to the number.
+                                    else
+                                    {
+                                        //Iterate through a new loop for the program array starting from the current index.
+                                        for (int l = i; l < program.Length; l++)
+                                        {
+                                            //Check to see where end of the loop is.
+                                            if (program[l].Contains("end"))
+                                            {
+                                                //Search for the occurance of 'end'.
+                                                String searchString = "end";
+                                                int index = Array.IndexOf(program, searchString, i);
+                                                //Skips what's in the if statemtn and move to end as the comparision was false.
+                                                i = index;
+
+                                            }
+
+                                        }
+
+
+                                    }
+
+                                }
+
+                            }
+                            //If the variable is greater then number.
+                            else if (symbol == ">")
+                            {
+                                if (var > number)
+                                {
+                                    //checking if while loop is block cmd.
+                                    if (program[i].Contains("Do"))
+                                    {
+                                        //Splits the single cmd to get it as it is supposed to perform.
+                                        program[i] = program[i].Split(new[] { "Do " }, StringSplitOptions.None)[1];
+
+
+
+                                    }
+                                    //If block cmd is specified.
+                                    else
+                                    {
+                                        //For loop to iterate through the program to find where the block cmd ends.
+                                        for (int m = i; m < program.Length; m++)
+                                        {
+                                            //Checks for where loop ends.
+                                            if (program[m].Contains("end"))
+                                            {
+                                                //Search for the first occurence of the duplicated value.
+                                                String searchString = "end";
+                                                //Saves the array index where 'end' occurs.
+                                                int index = Array.IndexOf(program, searchString);
+
+                                            }
+                                        }
+
+                                    }
+
+                                }
+                                //If the number is not equal to our variable.
+                                else
+                                {
+                                    //if the number isnt equal to the ariable but still contains 'Do'.
+                                    if (program[i].Contains("Do"))
+                                    {
+                                        //Checks to see if the nest index is empty in the program array.
+                                        string nextIndex = program[i + 1];
+                                        if (nextIndex != null)
+                                        {
+                                            //If it's not empty then just skip the if statement as it is false.
+                                            i = i + 1;
+                                        }
+
+
+
+                                    }
+
+
+                                    //If it is a block if statement where the variable isn't equal to the number.
+                                    else
+                                    {
+                                        //Iterate through a new loop for the program array starting from current index.
+                                        for (int n = i; n < program.Length; n++)
+                                        {
+                                            //Checks to see where the end of  loop is.
+                                            if (program[n].Contains("end"))
+                                            {
+                                                //Search for the occurrence of 'end'.
+                                                String searchString = "end";
+                                                int index = Array.IndexOf(program, searchString, i);
+                                                //Skipping what is in the statement and move to end as comparison was false.
+                                                i = index;
+
+                                            }
+
+                                        }
+                                    }
+
+
+                                }
+
+
+                            }
+                            //If the variable is less then or equal to the number.
+                            else if (symbol == "<=")
+                            {
+                                if (var <= number)
+                                {
+                                    //Checks to see if the lopp is Block cmd.
+                                    if (program[i].Contains("Do"))
+                                    {
+                                        //Splits the sinlge line cmd to get as it is supposed to perform.
+                                        program[i] = program[i].Split(new[] { "Do  " }, StringSplitOptions.None)[1];
+
+                                    }
+                                    //If the user specified a block command.
+                                    else
+                                    {
+                                        //For loop to iterate through the program to find where the block cmd ends.
+                                        for (int o = i; o < program.Length; o++)
+                                        {
+                                            //Checking where the loop ends.
+                                            if (program[o].Contains("end"))
+                                            {
+                                                //Search for the first occurence of the duplicated values.
+                                                String searchString = "end";
+                                                //Saves the array index where 'end' occurs.
+                                                int index = Array.IndexOf(program, searchString);
+
+                                            }
+                                        }
+
+
+                                    }
+
+
+
+                                }
+                                //If the number doesn't equal the variable
+                                else
+                                {
+
+                                    //If the number isnt equal to the variable but still contains'Do'.
+                                    if (program[i].Contains("Do"))
+                                    {
+                                        //Checks to see if the next index is empty in program array.
+                                        string nextIndex = program[i + 1];
+                                        if (nextIndex != null)
+                                        {
+                                            //If its not empty then skip as if its false
+                                            i = i + 1;
+                                        }
+
+                                    }
+                                    //If it is a block if statement where the variable isn't equal to the number.
+                                    else
+                                    {
+                                        for (int p = i; p < program.Length; p++)
+                                        {
+
+                                            //Checks to see where the end of the loop is.
+                                            if (program[i].Contains("Do"))
+                                            {
+                                                String searchString = "end";
+                                                int index = Array.IndexOf(program, searchString, i);
+                                                //Skipping whats in IF statement and move to end as if comparision was false
+                                                i = index;
+
+
+
+
+                                            }
+                                        }
+                                    }
+
+
+                                }
+
+
+                            }
+
+
+
+                        }
+                        //Exception in case there are too many or not enough parameters in the users command.
+
+                        catch (IndexOutOfRangeException)
+                        {
+                            //Message saying that the if command needs two parameters.
+                            //String message = "The number of parameters for performing an If statement was unsuitable. " +
+                            //    "Error on line: " + lines;
+                            //String caption = "Unable to perform If statement.";
+                            //MessageBoxButtons buttons = MessageBoxButtons.OK;
+                            //DialogResult result;
+                            label1.Text = "The number of parameters for performing an If statement was unsuitable. " +
+                                "Error on line: " + lines;
+                            //Displays the dialog box.
+                            //result = MessageBox.Show(message, caption, buttons);
+
+
+                        }
+                        catch (FormatException)
+                        {
+                            //Message saying that the parameters are incorrect, e.g strings instead of integars.
+                            //String message = "The format of the parameters is unsuitable. Ensure they are integars. " +
+                            //    "Error on line: " + lines;
+                            //String caption = "Unable to perform If statement.";
+                            //MessageBoxButtons buttons = MessageBoxButtons.OK;
+                            //DialogResult result;
+                            label1.Text = "The format of the parameters is unsuitable. Ensure they are integars. " +
+                                "Error on line: " + lines;
+                            //Displays the dialog box.
+                            //result = MessageBox.Show(message, caption, buttons);
+
+
+                        }
 
 
                     }
@@ -615,6 +961,14 @@ namespace GPL
                         }
 
 
+                    }
+                    else if (program[i].Contains("fillon"))
+                    {
+                        FillRectangle(userColor);
+                      
+                    
+                    
+                    
                     }
                     //Checks to see if the user entered 'drawline' command.
                     else if (program[i].Contains("drawline") || ifCode.Contains("drawline"))
@@ -764,7 +1118,7 @@ namespace GPL
                             string symbol = "", rad;
 
                             char[] myChar = new char[0];
-                            int radius1 = 10;
+                            int radius1 = _radius;
                             //Splits the program to get parameters.
                             string[] stringRadius = program[i].Split(' ');
                             //If the users cmd also contains repeat then the circle needs extra variables.
@@ -1181,7 +1535,7 @@ namespace GPL
 
                     }
                     //Checks to see if there is triangle in User's cmd
-                    else if (program[i].Contains("traingle"))
+                    else if (program[i].Contains("triangle"))
                     {
                         try
                         {
@@ -1740,7 +2094,7 @@ namespace GPL
                             loop++;
                             i = loopLine;
                         }
-                    
+
                     }
                     //If the user's program equals nothing perform no actions.
                     else if (program[i].Equals("") || program[i].Equals(" ") || program[i] == null)
